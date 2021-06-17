@@ -1,0 +1,25 @@
+.body{
+    margin-top: 20px;
+}
+
+.mainPanel{
+    width: 1000px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 20px;
+}
+
+.infoTab{
+    height: auto;
+}
+
+.tabCard{
+    width: 800px;
+    height: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #000;
+}
