@@ -45,8 +45,16 @@
             </mat-card> 
           </mat-tab>
         </mat-tab-group>
+        <mat-card class="graphCard">
+          <app-temperature-chart #tempChart></app-temperature-chart>
+        </mat-card>
+        
       </mat-card>
     </div>
-    
+    <script src="node_modules/chart.js/src/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@1.27.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0"></script>
   </body>
 </html>

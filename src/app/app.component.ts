@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, interval } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { TemplateBindingParseResult } from '@angular/compiler';
+import { TemperatureChartComponent } from './components/temperature-chart/temperature-chart.component';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,6 @@ export class AppComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-
     interval(1000).subscribe(() => {
       this.getCurrentTemp();
     });
