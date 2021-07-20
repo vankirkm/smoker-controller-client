@@ -1,9 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError, interval } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
-import { TemplateBindingParseResult } from '@angular/compiler';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { HttpClient,  } from '@angular/common/http';
+import { interval } from 'rxjs';
 import { TemperatureChartComponent } from './components/temperature-chart/temperature-chart.component';
 
 @Component({
@@ -12,22 +9,24 @@ import { TemperatureChartComponent } from './components/temperature-chart/temper
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  @ViewChild('tempChart') tempChartComponent: TemperatureChartComponent;
   title = 'smoker-controller';
   currentTemp: any;
   currentSetTemp: any;
   tempUrl = 'http://localhost:3000/api/current-temp';
   ;
 
-  constructor(private http: HttpClient,){
+  constructor(private http: HttpClient){
   }
 
   
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
+    this.getSetTemp();
     interval(1000).subscribe(() => {
       this.getCurrentTemp();
+      this.tempChartComponent.updateCurrentTemp(this.currentTemp);
+      this.tempChartComponent.updateSetTemp(this.currentSetTemp);
     });
     
   }

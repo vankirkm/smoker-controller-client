@@ -1,6 +1,6 @@
 import { Time } from '@angular/common';
 import { CloneVisitor } from '@angular/compiler/src/i18n/i18n_ast';
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { Chart, registerables, ChartType } from 'chart.js';
 import 'chartjs-adapter-luxon';
 import ChartStreaming from 'chartjs-plugin-streaming';
@@ -16,8 +16,10 @@ Chart.defaults.set('plugins.streaming', {
 })
 
 export class TemperatureChartComponent implements OnInit {
+  @Input() currentTemp: number;
   @ViewChild('tempChart') tempChartElement: ElementRef;
   tempChart: Chart;
+  setTemp: number;
   data = {
     datasets: [
       {
@@ -25,14 +27,30 @@ export class TemperatureChartComponent implements OnInit {
         backgroundColor: '#49B88A',
         borderColor: '#49B88A',
         data: []
+      },
+      {
+        label: 'Set Temperature',
+        backgroundColor: '#ab1b00',
+        borderColor: '#ab1b00',
+        data: []
       }
+
     ]
   };
 
   constructor(private elementRef: ElementRef) {
+    this.setTemp = this.currentTemp;
   }
 
   updateDataSet(value: number) {
+  }
+
+  updateCurrentTemp(currentTemp: number) {
+    this.currentTemp = currentTemp;
+  }
+
+  updateSetTemp(setTemp: number){
+    this.setTemp = setTemp;
   }
 
   ngOnInit(): void {
@@ -58,12 +76,21 @@ export class TemperatureChartComponent implements OnInit {
           y: {
             title: {
               display: true,
-              text: 'Value'
+              text: 'Temperature (°F)'
             }
           }
         },
         interaction: {
           intersect: false
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Current Smoker Temperature',
+            font: {
+              size: 24
+            }
+          }
         }
       }
     });
@@ -72,10 +99,19 @@ export class TemperatureChartComponent implements OnInit {
   onRefresh = chart => {
     const now = Date.now();
     chart.data.datasets.forEach(dataset => {
-      dataset.data.push({
-        x: now,
-        y: (Math.random() * (100 - -100) + -100)
-      });
+
+      if(dataset.label === 'Current Temperature'){
+        dataset.data.push({
+          x: now,
+          y: this.currentTemp
+        })
+      } else{
+        dataset.data.push({
+          x: now,
+          y: this.setTemp
+        });
+      }
+      
     });
   };
 }
